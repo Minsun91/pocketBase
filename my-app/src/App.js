@@ -72,15 +72,15 @@ function App() {
       }
     };
 
-    const interval = setInterval(openNextLink, 10000);
+    const interval = setInterval(openNextLink, 30000);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div>
       <h1>리디렉션 프로그램</h1>
-      <p>이 페이지를 새 인코그니토 창에서 열어주세요. Google Chrome에서는 Ctrl + Shift + N를 눌러 인코그니토 창을 열 수 있습니다.{" "}
-        아니면 기다리면 새 창이 열립니다.</p>
+      <p>이 페이지를 새 인코그니토 창에서 열어주세요. 단축키 : Ctrl + Shift + N </p>
+      <p> 아니면 기다리면 새 창이 열립니다.</p>
       {/* <button onClick={closeWindow}>창 닫기</button>  */}
     </div>
   );
