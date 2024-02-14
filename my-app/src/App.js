@@ -55,33 +55,42 @@ function App() {
     "https://www.clickasnap.com/profile/Minsun/photo/01HNYM97KV9JFK9DNFHD4366KV",
     "https://www.clickasnap.com/profile/Minsun/photo/01HNYM8B79PNJEMZSQWC1Y52C0",
     "https://www.clickasnap.com/profile/Minsun/photo/01HNYFN9HT5PA7NA1RDSAEA73Z",
+    "https://www.clickasnap.com/profile/Minsun/photo/01HPKAGDWF9XV69BYFAWFW4HD1",
+    "https://www.clickasnap.com/profile/Minsun/photo/01HPHX2QHZE9RFV61NH8GYG2NM",
+    "https://www.clickasnap.com/profile/Minsun/photo/01HPHH0Y11K6QQD6PW7YR9BSZ9"
   ];
 
   const currentLinkIndexRef = useRef(-1);
 
   useEffect(() => {
     const openNextLink = () => {
-      const randomIndex = Math.floor(Math.random() * links.length);
+      const randomIndex = Math.floor(Math.random() * links.length); // 랜덤 인덱스 선택
       if (currentLinkIndexRef.current === randomIndex) {
-        openNextLink();
+        openNextLink(); // 현재 링크와 같은 경우 다음 링크를 선택
       } else {
-        const currentTime = new Date().toLocaleTimeString();
-        console.log(`[${currentTime}] Opening ${links[randomIndex]}`);
-        openUrlInIncognito(links[randomIndex]);
-        currentLinkIndexRef.current = randomIndex;
+        const currentTime = new Date().toLocaleTimeString(); // 현재 시간 가져오기
+        console.log(`[${currentTime}] Opening ${links[randomIndex]}`); // 콘솔에 시간과 열릴 링크 출력
+        openUrlInIncognito(links[randomIndex]); // 새 인코그니토 창에서 새 링크 열기
+        currentLinkIndexRef.current = randomIndex; // 현재 링크 인덱스 업데이트
       }
     };
 
-    const interval = setInterval(openNextLink, 30000);
-    return () => clearInterval(interval);
+    const interval = setInterval(openNextLink, 100000);  
+
+    return () => clearInterval(interval); // 컴포넌트가 언마운트될 때 interval 클리어
   }, []);
+
+  const handleVisitButtonClick = () => {
+    const randomIndex = Math.floor(Math.random() * links.length);
+    openUrlInIncognito(links[randomIndex]);
+    currentLinkIndexRef.current = randomIndex;
+  };
 
   return (
     <div>
       <h1>리디렉션 프로그램</h1>
-      <p>이 페이지를 새 인코그니토 창에서 열어주세요. 단축키 : Ctrl + Shift + N </p>
-      <p> 아니면 기다리면 새 창이 열립니다.</p>
-      {/* <button onClick={closeWindow}>창 닫기</button>  */}
+      <p>이 페이지를 새 인코그니토 창에서 열어주세요. Google Chrome에서는 Ctrl + Shift + N를 눌러 인코그니토 창을 열 수 있습니다.</p>
+      <button onClick={handleVisitButtonClick}>클릭</button>
     </div>
   );
 }
