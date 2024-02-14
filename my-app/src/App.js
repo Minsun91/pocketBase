@@ -77,7 +77,7 @@ function App() {
 
     const interval = setInterval(openNextLink, 100000);  
 
-    return () => clearInterval(interval); // 컴포넌트가 언마운트될 때 interval 클리어
+    return () => clearInterval(interval); 
   }, []);
 
   const handleVisitButtonClick = () => {
@@ -88,8 +88,8 @@ function App() {
 
   return (
     <div>
-      <h1>리디렉션 프로그램</h1>
-      <p>이 페이지를 새 인코그니토 창에서 열어주세요. Google Chrome에서는 Ctrl + Shift + N를 눌러 인코그니토 창을 열 수 있습니다.</p>
+      <h1>티끌을 모아보자!</h1>
+      <p>이 페이지를 새 인코그니토 창에서 열어주세요.  </p>
       <button onClick={handleVisitButtonClick}>클릭</button>
     </div>
   );
