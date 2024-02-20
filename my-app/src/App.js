@@ -61,9 +61,9 @@ function App() {
     "https://share.clickasnap.com/profile/Minsun/photo/01HPRPQTVCGG33PXC42Z7M1K0T",
     "https://www.clickasnap.com/profile/Minsun/photo/01HPS0VQR92G6YA8BPX6VMMBH1",
     "https://www.clickasnap.com/profile/Minsun/photo/01HPS0VPN56A8N4BWMYKKQC7VM",
-    "https://www.clickasnap.com/profile/Minsun/photo/01HPS0VMNW4551H2TYZ1TJGRWV"
-
-
+    "https://www.clickasnap.com/profile/Minsun/photo/01HPS0VMNW4551H2TYZ1TJGRWV",
+    "https://www.clickasnap.com/profile/Minsun/photo/01HQ307PHEK2HV46HR219AXA22",
+    "https://www.clickasnap.com/profile/Minsun/photo/01HPYYERKGA1C3CK4GRTBSPDS2"
   ];
 
   const currentLinkIndexRef = useRef(-1);
