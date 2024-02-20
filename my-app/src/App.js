@@ -9,7 +9,7 @@
 //     </>)
 // }
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
 function openUrlInIncognito(url) {
   window.open(url, '_blank', 'toolbar=0,location=0,menubar=0');
@@ -57,10 +57,17 @@ function App() {
     "https://www.clickasnap.com/profile/Minsun/photo/01HNYFN9HT5PA7NA1RDSAEA73Z",
     "https://www.clickasnap.com/profile/Minsun/photo/01HPKAGDWF9XV69BYFAWFW4HD1",
     "https://www.clickasnap.com/profile/Minsun/photo/01HPHX2QHZE9RFV61NH8GYG2NM",
-    "https://www.clickasnap.com/profile/Minsun/photo/01HPHH0Y11K6QQD6PW7YR9BSZ9"
+    "https://www.clickasnap.com/profile/Minsun/photo/01HPHH0Y11K6QQD6PW7YR9BSZ9",
+    "https://share.clickasnap.com/profile/Minsun/photo/01HPRPQTVCGG33PXC42Z7M1K0T",
+    "https://www.clickasnap.com/profile/Minsun/photo/01HPS0VQR92G6YA8BPX6VMMBH1",
+    "https://www.clickasnap.com/profile/Minsun/photo/01HPS0VPN56A8N4BWMYKKQC7VM",
+    "https://www.clickasnap.com/profile/Minsun/photo/01HPS0VMNW4551H2TYZ1TJGRWV",
+    "https://www.clickasnap.com/profile/Minsun/photo/01HQ307PHEK2HV46HR219AXA22",
+    "https://www.clickasnap.com/profile/Minsun/photo/01HPYYERKGA1C3CK4GRTBSPDS2"
   ];
 
   const currentLinkIndexRef = useRef(-1);
+  const [linkOpenCount, setLinkOpenCount] = useState(0);
 
   useEffect(() => {
     const openNextLink = () => {
@@ -69,22 +76,24 @@ function App() {
         openNextLink(); // 현재 링크와 같은 경우 다음 링크를 선택
       } else {
         const currentTime = new Date().toLocaleTimeString(); // 현재 시간 가져오기
-        console.log(`[${currentTime}] Opening ${links[randomIndex]}`); // 콘솔에 시간과 열릴 링크 출력
+        setLinkOpenCount(prevCount => prevCount + 1); // 링크를 열은 횟수 증가
+        console.log(`[${currentTime}] Opening ${links[randomIndex]}. Link opened ${linkOpenCount} times.`); // 콘솔에 시간과 열릴 링크, 그리고 누적된 링크를 열은 횟수 출력
         openUrlInIncognito(links[randomIndex]); // 새 인코그니토 창에서 새 링크 열기
         currentLinkIndexRef.current = randomIndex; // 현재 링크 인덱스 업데이트
       }
     };
-
+  
     const interval = setInterval(openNextLink, 100000);  
-
+  
     return () => clearInterval(interval); 
-  }, []);
+  }, [linkOpenCount]); // linkOpenCount가 변경될 때마다 useEffect가 다시 실행되도록 함
 
   const handleVisitButtonClick = () => {
     const randomIndex = Math.floor(Math.random() * links.length);
     openUrlInIncognito(links[randomIndex]);
     currentLinkIndexRef.current = randomIndex;
   };
+
 
   return (
     <div>
