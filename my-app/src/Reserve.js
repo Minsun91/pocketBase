@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
 import gsap from "gsap";
 import { CSSPlugin } from "gsap";
 import "./styles/button.css";
@@ -13,15 +12,43 @@ export default function Reserve() {
         location: "",
     });
 
+    //mouse effect
+    useEffect(() => {
+        document.querySelectorAll(".button").forEach((button) => {
+            button.addEventListener("mousemove", (e) => {
+            });
+
+            button.addEventListener("mouseleave", (e) => {
+            });
+
+            button.addEventListener("click", (e) => {
+            });
+        });
+    }, []);
+
+    //input values
     const handleChange = (event) => {
         const { name, value } = event.target;
         setReservationData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [name]: value.toString(),
         }));
     };
 
-    const handleSubmit = event => {
+    // const handleChange2 = (event) => {
+    //     const { name, value } = event.target;
+    
+    //     // 날짜와 시간을 ISO 8601 형식으로 변환
+    //     const isoDateTime = value.replace('T', ' ') + ':00Z';
+    //     setReservationData((prevData) => ({
+    //         ...prevData,
+    //         [name]: isoDateTime.toString(),
+    //     }));
+
+    //     console.log("ISO DateTime:", isoDateTime);
+    // }
+     
+    const handleSubmit = (event) => {
         event.preventDefault();
         fetch("http://127.0.0.1:8090/api/collections/reservation/records", {
             method: 'POST',
@@ -38,25 +65,13 @@ export default function Reserve() {
                 memo: '',
                 location: ''
             });
+            console.log(reservationData.date)
         })
         .catch(error => {
             console.error('예약 생성 중 에러 발생:', error);
-            console.log(error)
         });
     };
-
-        useEffect(() => {
-            document.querySelectorAll(".button").forEach((button) => {
-                button.addEventListener("mousemove", (e) => {
-                });
-
-                button.addEventListener("mouseleave", (e) => {
-                });
-
-                button.addEventListener("click", (e) => {
-                });
-            });
-        }, []);
+      
 
     return (
         <div>
@@ -95,7 +110,7 @@ export default function Reserve() {
                 </label>
                 <br />
 
-                <button class="fun-btn" onClick={handleSubmit}> Reserve 😉 </button>
+                <button className="fun-btn" onClick={handleSubmit}> Reserve 😉 </button>
             </form>
         </div>
     );
