@@ -1,40 +1,16 @@
 import React, { useState } from "react";
+import "../styles/popup.css";
 
-export default function ReservePost({ onSubmit, onChange }) {
+export default function ReservePost() {
     const [reservationData, setReservationData] = useState({
         date: "",
+        time: "",
         memo: "",
         location: "",
     });
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const isoDate = new Date(reservationData.date).toISOString();
-        const requestData = {
-            ...reservationData,
-            date: isoDate,
-        };
-        
-        fetch("http://127.0.0.1:8090/api/collections/reservation/records", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(requestData),
-        }) 
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("Reservation successfully created:", data.message);
-                setReservationData({
-                    date: "",
-                    memo: "",
-                    location: "",
-                });
-            })
-            .catch((error) => {
-                console.error("Error creating reservation:", error);
-            });
-    };
+    const [showModal, setShowModal] = useState(false);
+    const [responseDate, setResponseDate] = useState("");
+    const [responseMemo, setResponseMemo] = useState("");
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -43,13 +19,116 @@ export default function ReservePost({ onSubmit, onChange }) {
             [name]: value,
         }));
     };
-    console.log("ll", handleChange)
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const dateTimeString = reservationData.date + "T" + reservationData.time;
+        const inputDateTime = new Date(dateTimeString);
+        if (isNaN(inputDateTime.getTime())) {
+            console.error("Invalid date or time value");
+            return;
+        }
+    const isoDateTime = inputDateTime.toISOString();
+    const [date, time] = isoDateTime.split("T");
+    console.log(date + ", " + time.slice(0, 5));
+            fetch("http://127.0.0.1:8090/api/collections/reservation/records", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                ...reservationData,
+                dateTime: isoDateTime,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data) {
+                    setReservationData({
+                        date: "",
+                        // time: "",
+                        memo: "",
+                        location: "",
+                    });
+                    // const date = new Date(data.date).toLocaleDateString();
+                    setResponseDate(data.date);
+                    setResponseMemo(data.memo);
+                    setShowModal(true);
+                    console.log("Reservation successfully created:", data);
+                } else {
+                    console.log("erro creating reservation:", data.message);
+                }
+            })
+            .catch((error) => {
+                console.error("Error creating reservation:", error);
+            });
+    };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <form onSubmit={handleSubmit} className="reservation-form">
-                <br />
-            </form>
+        <form onSubmit={handleSubmit} className="reservation-form">
+            <div className="form-group">
+                <label htmlFor="date">Date:</label>
+                <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    value={reservationData.date}
+                    onChange={handleChange}
+                    className="input-field"
+                />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="time">Time:</label>
+                <input
+                    type="time"
+                    id="time"
+                    name="time"
+                    value={reservationData.time}
+                    onChange={handleChange}
+                    className="input-field"
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="memo">What to do:</label>
+                <input
+                    type="text"
+                    id="memo"
+                    name="memo"
+                    value={reservationData.memo}
+                    onChange={handleChange}
+                    className="input-field"
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="location">Where to meet:</label>
+                <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    value={reservationData.location}
+                    onChange={handleChange}
+                    className="input-field"
+                />
+            </div>
+            {showModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span
+                            className="close"
+                            onClick={() => setShowModal(false)}>
+                            &times;
+                        </span>
+                        <p>Date:{responseDate} </p>
+                        <p>Memo:{responseMemo} </p>
+                        <p>취소하려면.. <br />
+                        </p>
+                    </div>
+                </div>
+            )}
+            <button type="submit" className="fun-btn">
+                Reserve 😉
+            </button>
         </form>
     );
 }
