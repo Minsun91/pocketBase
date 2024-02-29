@@ -1,10 +1,10 @@
 import React from 'react';
-import Reserve from './containers/Reserve';
+import LandingPage from './containers/LandingPage'; 
 
 function App() {
   return (
     <div className="App">
-      <Reserve />
+       <LandingPage />
     </div>
   );
 }

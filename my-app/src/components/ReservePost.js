@@ -23,14 +23,12 @@ export default function ReservePost() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const dateTimeString = reservationData.date + "T" + reservationData.time;
-        const inputDateTime = new Date(dateTimeString);
+        const inputDateTime = new Date(dateTimeString+ 'Z');
         if (isNaN(inputDateTime.getTime())) {
             console.error("Invalid date or time value");
             return;
         }
-    const isoDateTime = inputDateTime.toISOString();
-    const [date, time] = isoDateTime.split("T");
-    console.log(date + ", " + time.slice(0, 5));
+
             fetch("http://127.0.0.1:8090/api/collections/reservation/records", {
             method: "POST",
             headers: {
@@ -38,7 +36,7 @@ export default function ReservePost() {
             },
             body: JSON.stringify({
                 ...reservationData,
-                dateTime: isoDateTime,
+                date: inputDateTime,
             }),
         })
             .then((response) => response.json())
@@ -121,7 +119,7 @@ export default function ReservePost() {
                         </span>
                         <p>Date:{responseDate} </p>
                         <p>Memo:{responseMemo} </p>
-                        <p>취소하려면.. <br />
+                        <p>취소하려면 카톡해... <br />
                         </p>
                     </div>
                 </div>
