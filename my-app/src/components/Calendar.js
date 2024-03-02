@@ -1,13 +1,24 @@
-import React from 'react';
-// Import a calendar library or implement your own calendar component
+import React from "react";
+import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+
+const localizer = momentLocalizer(moment);
 
 const Calendar = () => {
-    // Render calendar component here
     return (
         <div>
-            {/* Render your calendar component here */}
+            <br />
+            <br />
+            <BigCalendar
+                localizer={localizer}
+                events={[]}
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: 500 }}
+            />
         </div>
     );
-}
+};
 
 export default Calendar;
