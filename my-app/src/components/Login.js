@@ -6,12 +6,11 @@ import "../styles/button.css";
 
 const LoginForm = ({ onLoginSuccess }) => {
     const navigate = useNavigate();
-
     const handleGoogleLogin = async () => {
         const pb = new PocketBase("http://127.0.0.1:8090");
         try {
             // PocketBase를 사용하여 Google OAuth2로 로그인합니다.
-            const authData = await pb.collection("users").authWithOAuth2({ provider: "google" });
+            const authData = await pb.collection("users").authWithOAuth2({ provider: 'google' });
 
             // 로그인이 성공하면 onLoginSuccess 콜백 함수를 호출합니다.
             onLoginSuccess();

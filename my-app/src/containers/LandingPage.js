@@ -43,7 +43,7 @@ const LandingPage = () => {
 
     // ReservePost 페이지로 이동하는 함수
     const goToReservePostPage = () => {
-        navigate("/reserve"); 
+        navigate("/reserve");
     };
 
     // 팝업 창을 숨기는 함수
@@ -69,14 +69,16 @@ const LandingPage = () => {
 
                 {/* 팝업 창 */}
                 {showPopup && (
-                    <div className="modal">
+                    <div
+                        className="modal"
+                        style={{ width: "400px", height: "200px" }}>
                         <div className="modal-content">
                             <span className="close" onClick={hidePopup}>
                                 &times;
                             </span>
                             <p>
-                                Login Successful! <br /> What would you like to
-                                do next?
+                                Login Successful! <br /> Please book Minsun
+                                before too late! 😝
                             </p>
                             <button onClick={goToReservePostPage}>
                                 Go to Reserve Post Page
