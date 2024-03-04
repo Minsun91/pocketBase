@@ -1,15 +1,19 @@
 import React from 'react';
-import Click from "../src/click";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './containers/LandingPage';
+import ReservePost from './containers/Reserve';
+import SignUp from './components/SignUp';
 
-function openUrlInIncognito(url) {
-    window.open(url, "_blank", "toolbar=0,location=0,menubar=0");
-}
-
-function App() {
+const App = () => {
     return (
-        <>
-            <Click />
-        </>
+        <Router>
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/reserve" element={<ReservePost />} />
+                <Route path="/signup" element={<SignUp />} />
+            </Routes>
+        </Router>
     );
-}
+};
+
 export default App;

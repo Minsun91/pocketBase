@@ -1,0 +1,20 @@
+{
+  "name": "BookMinsoonNow",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node MyProject/post.js",
+    "pocketbase": "./pocketbase/pocketbase serve"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "pocketbase": "^0.21.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9"
+  }
+}
