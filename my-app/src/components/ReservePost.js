@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/popup.css";
 
 export default function ReservePost() {
@@ -11,6 +12,8 @@ export default function ReservePost() {
     const [showModal, setShowModal] = useState(false);
     const [responseDate, setResponseDate] = useState("");
     const [responseMemo, setResponseMemo] = useState("");
+    const [showPopup, setShowPopup] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -22,14 +25,15 @@ export default function ReservePost() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const dateTimeString = reservationData.date + "T" + reservationData.time;
-        const inputDateTime = new Date(dateTimeString+ 'Z');
+        const dateTimeString =
+            reservationData.date + "T" + reservationData.time;
+        const inputDateTime = new Date(dateTimeString + "Z");
         if (isNaN(inputDateTime.getTime())) {
             console.error("Invalid date or time value");
             return;
         }
 
-            fetch("http://127.0.0.1:8090/api/collections/reservation/records", {
+        fetch("http://127.0.0.1:8090/api/collections/reservation/records", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -44,22 +48,24 @@ export default function ReservePost() {
                 if (data) {
                     setReservationData({
                         date: "",
-                        // time: "",
                         memo: "",
                         location: "",
                     });
-                    // const date = new Date(data.date).toLocaleDateString();
                     setResponseDate(data.date);
                     setResponseMemo(data.memo);
                     setShowModal(true);
                     console.log("Reservation successfully created:", data);
                 } else {
-                    console.log("erro creating reservation:", data.message);
+                    console.log("error creating reservation:", data.message);
                 }
             })
             .catch((error) => {
                 console.error("Error creating reservation:", error);
             });
+    };
+    const handleModalClose = () => {
+        setShowModal(false);
+        navigate("/get");
     };
 
     return (
@@ -111,19 +117,38 @@ export default function ReservePost() {
             </div>
             {showModal && (
                 <div className="modal">
-                    <div className="modal-content">
-                        <span
-                            className="close"
-                            onClick={() => setShowModal(false)}>
-                            &times;
-                        </span>
-                        <p>Date:{responseDate} </p>
-                        <p>Memo:{responseMemo} </p>
-                        <p>취소하려면 카톡해... <br />
-                        </p>
+                    <div className="modal-content2">
+                        <div class="popup-head">
+                            <span class="head-title" onClick={handleModalClose}>
+                                <strong> Planned! </strong>
+                            </span>
+                        </div>
+                        <div className="popup-body2">
+                            <div className="body-content2">
+                                <div
+                                    className="body-contentbox"
+                                    style={{ textAlign: "center" }}>
+                                    <p>Date: {responseDate}</p>
+                                    <p>Memo: {responseMemo}</p>
+                                    <p>
+                                        <strong> Hit me up to cancel...</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="popup-foot">
+                            <button
+                                className="pop-btn2 close2"
+                                id="close2"
+                                onClick={handleModalClose}>
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
+
             <button type="submit" className="fun-btn">
                 Reserve 😉
             </button>
