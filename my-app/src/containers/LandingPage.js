@@ -35,11 +35,10 @@ const LandingPage = () => {
             );
             const data = await response.json();
 
-            // 서버에서 받은 응답을 기반으로 가입 여부를 결정합니다.
-            return data.isRegistered; // 가입되어 있으면 true, 가입되어 있지 않으면 false를 반환합니다.
+             return data.isRegistered; // 가입되어 있으면 true, 가입되어 있지 않으면 false를 반환합니다.
         } catch (error) {
             console.error("Error checking email registration:", error);
-            return false; // 에러 발생 시 가입되어 있지 않은 것으로 처리합니다.
+            return false; 
         }
     };
 
@@ -112,43 +111,6 @@ const LandingPage = () => {
                             </div>
                         </div>
                         </div>
-
-                    // <div className="container">
-                    //     <div className="popup-wrap">
-                    //         <div className="popup">
-                    //             <div className="popup-head">
-                    //                 <span className="head-title">
-                    //                     Login Successful!
-                    //                 </span>
-                    //             </div>
-                    //             <div className="popup-body">
-                    //                 <div className="body-content">
-                    //                     <div className="body-titlebox"></div>
-                    //                     <div className="body-contentbox">
-                    //                         <p>
-                    //                             Please book Minsun <br />
-                    //                             before it's too late! 😝
-                    //                         </p>
-                    //                     </div>
-                    //                 </div>
-                    //             </div>
-                    //             <div className="popup-foot">
-                    //                 <button
-                    //                     className="pop-btn confirm"
-                    //                     id="confirm"
-                    //                     onClick={goToReservePostPage}>
-                    //                     Go to Reserve Post Page
-                    //                 </button>
-                    //                 <button
-                    //                     className="pop-btn close"
-                    //                     id="close"
-                    //                     onClick={hidePopup}>
-                    //                     Close
-                    //                 </button>
-                    //             </div>
-                    //         </div>
-                    //     </div>
-                    // </div>
                 )}
             </div>
         </div>
