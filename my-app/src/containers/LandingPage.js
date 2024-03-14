@@ -31,7 +31,7 @@ const LandingPage = () => {
         try {
             // 서버로부터 이메일이 가입되어 있는지 확인하는 요청을 보냅니다.
             const response = await fetch(
-                `http://127.0.0.1:8090/api/collections/users/records/${email}`
+                `${process.env.DEPLOYED_URL}/api/collections/users/records/${email}`
             );
             const data = await response.json();
 
