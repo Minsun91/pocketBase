@@ -10,7 +10,7 @@ export default function ReservationGet() {
   const [reservations, setReservations] = useState([]);
 
   useEffect(() => {
-    const pb = new PocketBase('http://127.0.0.1:8090');
+    const pb = new PocketBase(process.env.DEPLOYED_URL);
 
     const fetchReservations = async () => {
       try {
