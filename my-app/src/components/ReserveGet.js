@@ -30,8 +30,8 @@ export default function ReservationGet() {
   return (
     <div>
       <BigCalendar
-        localizer={localizer} // 로컬라이저 설정
-        events={reservations.map(reservation => ({ // 이벤트 설정
+        localizer={localizer}  
+        events={reservations.map(reservation => ({ 
           start: new Date(reservation.date),
           end: new Date(reservation.date),
           title: reservation.memo, // 예약 메모를 이벤트 제목으로 사용
