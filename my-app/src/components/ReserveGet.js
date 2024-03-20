@@ -4,11 +4,17 @@ import PocketBase from 'pocketbase';
 import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar"; 
 import moment from 'moment';  
 
- const localizer = momentLocalizer(moment);
+// Redux 관련 import
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout, selectAuth } from '../store/Auth';
+
+const localizer = momentLocalizer(moment);
 
 export default function ReservationGet() {
   const [reservations, setReservations] = useState([]);
-
+  const dispatch = useDispatch(); // 이 코드는 함수 컴포넌트 내부에 위치해야 합니다.
+  const { isAuthenticated, user } = useSelector(selectAuth); // 이 코드도 함수 컴포넌트 내부에 위치해야 합니다.
+  
   useEffect(() => {
     const pb = new PocketBase('http://127.0.0.1:8090');
 
@@ -27,6 +33,10 @@ export default function ReservationGet() {
     fetchReservations();
   }, []);
 
+  useEffect(() => {
+    dispatch(login({ /* 유저 정보 */ }));
+  }, [dispatch]);
+
   return (
     <div>
       <BigCalendar
@@ -34,7 +44,7 @@ export default function ReservationGet() {
         events={reservations.map(reservation => ({ 
           start: new Date(reservation.date),
           end: new Date(reservation.date),
-          title: reservation.memo, // 예약 메모를 이벤트 제목으로 사용
+          title: reservation.memo, 
         }))}
         startAccessor="start" // 시작 날짜 접근자 설정
         endAccessor="end" // 종료 날짜 접근자 설정

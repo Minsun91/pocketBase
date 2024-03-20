@@ -6,6 +6,7 @@ import SignUp from './components/SignUp';
 import ReserveGet from "./components/ReserveGet";
 
 const App = () => {
+    
     return (
         <Router>
             <Routes>
