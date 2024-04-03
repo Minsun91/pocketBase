@@ -31,7 +31,7 @@ const LandingPage = () => {
         try {
             // need to be checked
             const response = await fetch(
-                `http://127.0.0.1:8090/api/collections/users/records/${email}`
+                `${process.env.DEPLOYED_URL}/api/collections/users/records/${email}`
             );
             const data = await response.json();
 

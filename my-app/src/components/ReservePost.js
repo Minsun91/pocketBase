@@ -33,7 +33,7 @@ export default function ReservePost() {
             return;
         }
 
-        fetch("http://127.0.0.1:8090/api/collections/reservation/records", {
+        fetch(`${process.env.DEPLOYED_URL}/api/collections/reservation/records`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

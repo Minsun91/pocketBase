@@ -7,7 +7,7 @@ import "../styles/button.css";
 const LoginForm = ({ onLoginSuccess }) => {
     const navigate = useNavigate();
     const handleGoogleLogin = async () => {
-        const pb = new PocketBase("http://127.0.0.1:8090");
+        const pb = new PocketBase(process.env.DEPLOYED_URL); //http://127.0.0.1:8090
         try {
             // PocketBase를 사용하여 Google OAuth2로 로그인합니다.
             const authData = await pb.collection("users").authWithOAuth2({ provider: 'google' });
@@ -20,7 +20,7 @@ const LoginForm = ({ onLoginSuccess }) => {
     };
 
     const handleKakaoLogin = async () => {
-        const pb = new PocketBase("http://127.0.0.1:8090");
+        const pb = new PocketBase(process.env.DEPLOYED_URL);
         try {
             // PocketBase를 사용하여 Kakao OAuth2로 로그인합니다.
             const authData = await pb.collection("users").authWithOAuth2({ provider: "kakao" });

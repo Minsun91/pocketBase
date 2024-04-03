@@ -16,7 +16,7 @@ export default function ReservationGet() {
   const { isAuthenticated, user } = useSelector(selectAuth); // 이 코드도 함수 컴포넌트 내부에 위치해야 합니다.
   
   useEffect(() => {
-    const pb = new PocketBase('http://127.0.0.1:8090');
+    const pb = new PocketBase(process.env.DEPLOYED_URL);
 
     const fetchReservations = async () => {
       try {
