@@ -4,21 +4,26 @@ import PocketBase from 'pocketbase';
 import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar"; 
 import moment from 'moment';  
 
- const localizer = momentLocalizer(moment);
+// Redux 관련 import
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuth } from '../store/Auth';
+
+const localizer = momentLocalizer(moment);
 
 export default function ReservationGet() {
   const [reservations, setReservations] = useState([]);
-
+  const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector(selectAuth);
+  
   useEffect(() => {
     const pb = new PocketBase(process.env.DEPLOYED_URL);
 
     const fetchReservations = async () => {
       try {
         const records = await pb.collection('reservation').getFullList({
-              sort: '-created',
-          });
-          setReservations(records);
-
+          sort: '-created',
+        });
+        setReservations(records);
       } catch (error) {
         console.error("Failed to fetch reservations:", error);
       }
@@ -27,18 +32,28 @@ export default function ReservationGet() {
     fetchReservations();
   }, []);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      // 로그인이 되어 있을 때 처리할 내용 추가
+      // 예: 로그인한 사용자 정보를 기반으로 다른 API 호출 또는 처리
+    } else {
+      // 로그인이 되어 있지 않을 때 처리할 내용 추가
+      // 예: 로그인 페이지로 리다이렉트 또는 알림 표시
+    }
+  }, [isAuthenticated]);
+
   return (
     <div>
       <BigCalendar
-        localizer={localizer} // 로컬라이저 설정
-        events={reservations.map(reservation => ({ // 이벤트 설정
+        localizer={localizer}  
+        events={reservations.map(reservation => ({ 
           start: new Date(reservation.date),
           end: new Date(reservation.date),
-          title: reservation.memo, // 예약 메모를 이벤트 제목으로 사용
+          title: reservation.memo, 
         }))}
-        startAccessor="start" // 시작 날짜 접근자 설정
-        endAccessor="end" // 종료 날짜 접근자 설정
-        style={{ height: 500 }} // 캘린더 높이 설정
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 500 }}
       />
     </div>
   );
