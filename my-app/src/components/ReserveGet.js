@@ -6,14 +6,14 @@ import moment from 'moment';
 
 // Redux 관련 import
 import { useDispatch, useSelector } from 'react-redux';
-import { login, logout, selectAuth } from '../store/Auth';
+import { selectAuth } from '../store/Auth';
 
 const localizer = momentLocalizer(moment);
 
 export default function ReservationGet() {
   const [reservations, setReservations] = useState([]);
-  const dispatch = useDispatch(); // 이 코드는 함수 컴포넌트 내부에 위치해야 합니다.
-  const { isAuthenticated, user } = useSelector(selectAuth); // 이 코드도 함수 컴포넌트 내부에 위치해야 합니다.
+  const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector(selectAuth);
   
   useEffect(() => {
     const pb = new PocketBase(process.env.DEPLOYED_URL);
@@ -21,10 +21,9 @@ export default function ReservationGet() {
     const fetchReservations = async () => {
       try {
         const records = await pb.collection('reservation').getFullList({
-              sort: '-created',
-          });
-          setReservations(records);
-
+          sort: '-created',
+        });
+        setReservations(records);
       } catch (error) {
         console.error("Failed to fetch reservations:", error);
       }
@@ -34,8 +33,14 @@ export default function ReservationGet() {
   }, []);
 
   useEffect(() => {
-    dispatch(login({ /* 유저 정보 */ }));
-  }, [dispatch]);
+    if (isAuthenticated) {
+      // 로그인이 되어 있을 때 처리할 내용 추가
+      // 예: 로그인한 사용자 정보를 기반으로 다른 API 호출 또는 처리
+    } else {
+      // 로그인이 되어 있지 않을 때 처리할 내용 추가
+      // 예: 로그인 페이지로 리다이렉트 또는 알림 표시
+    }
+  }, [isAuthenticated]);
 
   return (
     <div>
@@ -46,9 +51,9 @@ export default function ReservationGet() {
           end: new Date(reservation.date),
           title: reservation.memo, 
         }))}
-        startAccessor="start" // 시작 날짜 접근자 설정
-        endAccessor="end" // 종료 날짜 접근자 설정
-        style={{ height: 500 }} // 캘린더 높이 설정
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 500 }}
       />
     </div>
   );
